@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Service
+from django.shortcuts import render, get_object_or_404,redirect
+from .models import Service, Feedback
+from .forms import FeedbackForm
+
 
 def service_list(request):
     services = Service.objects.all()
@@ -8,3 +10,18 @@ def service_list(request):
 def service_detail(request, pk):
     service = get_object_or_404(Service, pk=pk)
     return render(request, 'services/detail.html', {'service': service})
+
+def home(request):
+    return render(request,'services/home.html')
+
+def contact(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('feedback')  # Редирект на ту же страницу
+    else:
+        form = FeedbackForm()
+
+    return render(request, 'services/contact.html', {'form': form})
+

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Контакты{% endblock %}
+{% block content %}
+
+<div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/55/tyumen/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Тюмень</a><a href="https://yandex.ru/maps/55/tyumen/house/ulitsa_kuznetsova_5_1/YkwYcwRkTUUHQFttfX11eHVgZw==/?ll=65.534658%2C57.149555&utm_medium=mapframe&utm_source=maps&z=18.51" style="color:#eee;font-size:12px;position:absolute;top:14px;">Улица Кузнецова, 5/1 — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?ll=65.534658%2C57.149555&mode=whatshere&whatshere%5Bpoint%5D=65.534135%2C57.149748&whatshere%5Bzoom%5D=17&z=18.51" width="560" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
+
+<div class="container mt-5">
+    <h2>Форма обратной связи</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="alert alert-danger">{{ form.name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="alert alert-danger">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.message.label_tag }}
+            {{ form.message }}
+            {% if form.message.errors %}
+                <div class="alert alert-danger">{{ form.message.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
+
+{% endblock %}
