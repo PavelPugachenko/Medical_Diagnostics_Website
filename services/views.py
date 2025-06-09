@@ -14,6 +14,18 @@ def service_detail(request, pk):
 def home(request):
     return render(request,'services/home.html')
 
+def index(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # После сохранения можно добавить сообщение (например, через messages.success)
+            return redirect('index')  # Редирект на ту же страницу
+    else:
+        form = FeedbackForm()
+
+    return render(request, 'services/index.html', {'form': form})
+
 def contact(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)

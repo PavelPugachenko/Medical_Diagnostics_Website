@@ -2,46 +2,105 @@
 {% block title %}Контакты{% endblock %}
 {% block content %}
 
-<div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/55/tyumen/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Тюмень</a><a href="https://yandex.ru/maps/55/tyumen/house/ulitsa_kuznetsova_5_1/YkwYcwRkTUUHQFttfX11eHVgZw==/?ll=65.534658%2C57.149555&utm_medium=mapframe&utm_source=maps&z=18.51" style="color:#eee;font-size:12px;position:absolute;top:14px;">Улица Кузнецова, 5/1 — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?ll=65.534658%2C57.149555&mode=whatshere&whatshere%5Bpoint%5D=65.534135%2C57.149748&whatshere%5Bzoom%5D=17&z=18.51" width="560" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
-
-<div class="container mt-5">
-    <h2>Форма обратной связи</h2>
-
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-
-    <form method="post">
-        {% csrf_token %}
-
-        <div class="form-group">
-            {{ form.name.label_tag }}
-            {{ form.name }}
-            {% if form.name.errors %}
-                <div class="alert alert-danger">{{ form.name.errors }}</div>
-            {% endif %}
+<!-- Contact Start -->
+<div class="container-fluid pt-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+            <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Свяжитесь с нами</h5>
+            <h1 class="display-4">Задайте вопрос или напишите нам</h1>
         </div>
 
-        <div class="form-group">
-            {{ form.email.label_tag }}
-            {{ form.email }}
-            {% if form.email.errors %}
-                <div class="alert alert-danger">{{ form.email.errors }}</div>
-            {% endif %}
+        <!-- Contact Info -->
+        <div class="row g-5 mb-5">
+            <div class="col-lg-4">
+                <div class="bg-light rounded d-flex flex-column align-items-center justify-content-center text-center" style="height: 200px;">
+                    <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle mb-4" style="width: 100px; height: 70px; transform: rotate(-15deg);">
+                        <i class="fa fa-2x fa-location-arrow text-white" style="transform: rotate(15deg);"></i>
+                    </div>
+                    <h6 class="mb-0">ул. Кузнецова, д. 5/1, Тюмень</h6>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-light rounded d-flex flex-column align-items-center justify-content-center text-center" style="height: 200px;">
+                    <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle mb-4" style="width: 100px; height: 70px; transform: rotate(-15deg);">
+                        <i class="fa fa-2x fa-phone text-white" style="transform: rotate(15deg);"></i>
+                    </div>
+                    <h6 class="mb-0">+7 (999) 123-45-67</h6>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-light rounded d-flex flex-column align-items-center justify-content-center text-center" style="height: 200px;">
+                    <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle mb-4" style="width: 100px; height: 70px; transform: rotate(-15deg);">
+                        <i class="fa fa-2x fa-envelope-open text-white" style="transform: rotate(15deg);"></i>
+                    </div>
+                    <h6 class="mb-0">info@example.com</h6>
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            {{ form.message.label_tag }}
-            {{ form.message }}
-            {% if form.message.errors %}
-                <div class="alert alert-danger">{{ form.message.errors }}</div>
-            {% endif %}
+        <!-- Карта -->
+        <div class="row">
+            <div class="col-12" style="height: 500px;">
+                <div class="position-relative h-100">
+                    <iframe src="https://yandex.ru/map-widget/v1/?ll=65.534658%2C57.149748&mode=whatshere&whatshere%5Bpoint%5D=65.534135%2C57.149748&whatshere%5Bzoom%5D=17&z=18.51"
+                            width="100%" height="100%" frameborder="0" allowfullscreen=""
+                            style="border:0;" aria-hidden="false" tabindex="0"></iframe>
+                </div>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Отправить</button>
-    </form>
+        <!-- Форма -->
+        <div class="row justify-content-center position-relative" style="margin-top: -200px; z-index: 1;">
+            <div class="col-lg-8">
+                <div class="bg-white rounded p-5 m-5 mb-0 shadow-sm">
+                    <h3 class="text-center mb-4">Отправьте нам сообщение</h3>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                {{ form.name.label_tag }}
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="alert alert-danger mt-2">{{ form.name.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="alert alert-danger mt-2">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-12">
+                                {{ form.message.label_tag }}
+                                {{ form.message }}
+                                {% if form.message.errors %}
+                                    <div class="alert alert-danger mt-2">{{ form.message.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100 py-3">Отправить сообщение</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- Contact End -->
 
 {% endblock %}
