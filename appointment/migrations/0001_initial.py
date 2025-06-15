@@ -9,18 +9,32 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('services', '0001_initial'),
+        ("services", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Appointment',
+            name="Appointment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField()),
-                ('time', models.TimeField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('service', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='services.service')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField()),
+                ("time", models.TimeField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "service",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="services.service",
+                    ),
+                ),
             ],
         ),
     ]

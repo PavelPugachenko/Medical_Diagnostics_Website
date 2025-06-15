@@ -6,22 +6,35 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('services', '0001_initial'),
+        ("services", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Feedback',
+            name="Feedback",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Имя')),
-                ('email', models.EmailField(max_length=254, verbose_name='Email')),
-                ('message', models.TextField(verbose_name='Сообщение')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата отправки')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Имя")),
+                ("email", models.EmailField(max_length=254, verbose_name="Email")),
+                ("message", models.TextField(verbose_name="Сообщение")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата отправки"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Обратная связь',
-                'verbose_name_plural': 'Обратные связи',
+                "verbose_name": "Обратная связь",
+                "verbose_name_plural": "Обратные связи",
             },
         ),
     ]
