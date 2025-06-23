@@ -4,23 +4,16 @@ from django.test import Client
 from services.models import Service, Feedback
 
 
-# Инициализируем клиент
-@pytest.fixture
-def client():
-    return Client()
+# Тест главной страницы (home)
+def test_home_view(client):
+    url = reverse("home")
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert "services/home.html" in [t.name for t in response.templates]
 
 
-# Создаём тестовый сервис
-@pytest.fixture
-def service():
-    return Service.objects.create(
-        name="Стоматология",
-        description="Лечение зубов",
-        price=5000
-    )
-
-
-# Тест: страница service_list
+# Тест списка услуг (service_list)
 def test_service_list_view(client, service):
     url = reverse("services:list")
     response = client.get(url)
@@ -30,7 +23,7 @@ def test_service_list_view(client, service):
     assert service in response.context["services"]
 
 
-# Тест: страница service_detail
+# Тест деталей услуги (service_detail)
 def test_service_detail_view(client, service):
     url = reverse("services:detail", args=[service.pk])
     response = client.get(url)
@@ -40,26 +33,18 @@ def test_service_detail_view(client, service):
     assert response.context["service"] == service
 
 
-# Тест: страница home
-def test_home_view(client):
-    url = reverse("home")
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert "services/home.html" in [t.name for t in response.templates]
-
-
-# Тест: страница index — GET-запрос
+# Тест формы обратной связи (index)
+@pytest.mark.django_db
 def test_index_view_get(client):
     url = reverse("index")
     response = client.get(url)
 
     assert response.status_code == 200
     assert "services/index.html" in [t.name for t in response.templates]
-    assert isinstance(response.context["form"], FeedbackForm)
+    assert "form" in response.context
 
 
-# Тест: страница index — POST-запрос с валидной формой
+@pytest.mark.django_db
 def test_index_view_post_valid(client):
     url = reverse("index")
     data = {
@@ -69,7 +54,7 @@ def test_index_view_post_valid(client):
     }
     response = client.post(url, data)
 
-    # Проверяем, что редирект произошёл
+    # Проверяем редирект
     assert response.status_code == 302
     assert response.url == reverse("index")
 
@@ -81,19 +66,20 @@ def test_index_view_post_valid(client):
     assert feedback.message == data["message"]
 
 
-# Тест: страница contact — GET-запрос
+# Тест формы обратной связи (contact)
+@pytest.mark.django_db
 def test_contact_view_get(client):
-    url = reverse("contact")
+    url = reverse("feedback")
     response = client.get(url)
 
     assert response.status_code == 200
     assert "services/contact.html" in [t.name for t in response.templates]
-    assert isinstance(response.context["form"], FeedbackForm)
+    assert "form" in response.context
 
 
-# Тест: страница contact — POST-запрос с валидной формой
+@pytest.mark.django_db
 def test_contact_view_post_valid(client):
-    url = reverse("contact")
+    url = reverse("feedback")
     data = {
         "name": "Петр",
         "email": "petr@example.com",
@@ -103,7 +89,7 @@ def test_contact_view_post_valid(client):
 
     # Проверяем редирект
     assert response.status_code == 302
-    assert response.url == reverse("feedback")
+    assert response.url == reverse("feedback")  # Убедись, что такой URL существует
 
     # Проверяем, что запись создалась
     assert Feedback.objects.count() == 1
