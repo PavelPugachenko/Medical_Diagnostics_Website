@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Информация{% endblock %}
+{% block content %}
+<h1>{{ service.title }}</h1>
+ {% if service.image %}
+    <img src="{{ service.image.url }}" class="img-fluid mb-3" width="300">
+{% else %}
+    <img src="/media/services/images.png" width="300">
+{% endif %}
+<p>{{ service.description }}</p>
+<p><strong>Цена:</strong> {{ service.price }} ₽</p>
+<a href="{% url 'create_appointment' %}" class="btn btn-success">Записаться</a>
+{% endblock %}
+
